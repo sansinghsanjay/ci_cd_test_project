@@ -21,14 +21,7 @@ pipeline {
 
         stage('Stop Old Container') {
             steps {
-                script {
-                    sh '''
-                    if [ $(docker ps -q -f name=$CONTAINER_NAME) ]; then
-                        docker stop $CONTAINER_NAME
-                        docker rm $CONTAINER_NAME
-                    fi
-                    '''
-                }
+                sh 'docker rm -f $CONTAINER_NAME || true'
             }
         }
 

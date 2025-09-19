@@ -10,7 +10,7 @@ import traceback
 # utils imports
 from utils.logger import log_status
 from utils.readable_timestamp import get_readable_timestamp
-from utils.root_response import RootResponseModel
+from utils.root_req_resp import RootRequestModel, RootResponseModel
 
 # paths
 constants_json_path = os.path.abspath("./constants.json")
@@ -18,6 +18,7 @@ constants_json_path = os.path.abspath("./constants.json")
 # load .env and required keys
 log_status(status="INFO", source="/app.py", timestamp=get_readable_timestamp(), msg="Loading secrets from .env\n")
 load_dotenv()
+FASTAPI_ACCESS_KEY = os.getenv("FASTAPI_ACCESS_KEY")
 
 # load constants.json
 log_status(status="INFO", source="/app.py", timestamp=get_readable_timestamp(), msg="Loading constants.json\n")
@@ -42,11 +43,18 @@ app.add_middleware(
 
 # root endpoint
 @app.post("/", response_model=RootResponseModel)
-def root():
+def root(request: RootRequestModel):
     try:
-        # endpoint hit
-        log_status(status="INFO", source="/app.py::root()", timestamp=get_readable_timestamp(), msg="Root endpoint hit. Returning response\n")
+        # endpoint hit; authenticate request
+        log_status(status="INFO", source="/app.py::root()", timestamp=get_readable_timestamp(), msg="Root endpoint hit. Authenticating request\n")
+        if(request.fastapi_access_key != FASTAPI_ACCESS_KEY):
+            log_status(status="WARNING", source="/app.py::root()", timestamp=get_readable_timestamp(), msg="FastAPI Access Key is either missing / mismatched. Authentication failed\n")
+            # return response
+            return RootResponseModel(
+                response="401: Not Authorized"
+            )
         # return response
+        log_status(status="INFO", source="/app.py::root()", timestamp=get_readable_timestamp(), msg="Authentication successful. Returning response\n")
         return RootResponseModel(
             response="Hi there!"
         )

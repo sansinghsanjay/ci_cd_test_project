@@ -13,12 +13,13 @@ load_dotenv()
 FASTAPI_ACCESS_KEY = os.getenv("FASTAPI_ACCESS_KEY")
 
 # calling root endpoint
-json_body = {
-    "fastapi_access_key": FASTAPI_ACCESS_KEY
-}
+#json_body = {
+#    "fastapi_access_key": FASTAPI_ACCESS_KEY
+#}
 response = requests.post(
-    FASTAPI_URL + ROOT_ENDPOINT,
-    json = json_body
+    FASTAPI_URL + ROOT_ENDPOINT
 )
+#    json = json_body
+#)
 response = response.json()
 print("Root Endpoint: " + response["response"])

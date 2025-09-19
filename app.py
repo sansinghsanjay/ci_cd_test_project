@@ -43,18 +43,18 @@ app.add_middleware(
 
 # root endpoint
 @app.post("/", response_model=RootResponseModel)
-def root(request: RootRequestModel):
+def root():    #request: RootRequestModel):
     try:
         # endpoint hit; authenticate request
         log_status(status="INFO", source="/app.py::root()", timestamp=get_readable_timestamp(), msg="Root endpoint hit. Authenticating request\n")
-        if(request.fastapi_access_key != FASTAPI_ACCESS_KEY):
-            log_status(status="WARNING", source="/app.py::root()", timestamp=get_readable_timestamp(), msg="FastAPI Access Key is either missing / mismatched. Authentication failed\n")
-            # return response
-            return RootResponseModel(
-                response="401: Not Authorized"
-            )
-        # return response
-        log_status(status="INFO", source="/app.py::root()", timestamp=get_readable_timestamp(), msg="Authentication successful. Returning response\n")
+        #if(request.fastapi_access_key != FASTAPI_ACCESS_KEY):
+        #    log_status(status="WARNING", source="/app.py::root()", timestamp=get_readable_timestamp(), msg="FastAPI Access Key is either missing / mismatched. Authentication failed\n")
+        #    # return response
+        #    return RootResponseModel(
+        #        response="401: Not Authorized"
+        #    )
+        ## return response
+        #log_status(status="INFO", source="/app.py::root()", timestamp=get_readable_timestamp(), msg="Authentication successful. Returning response\n")
         return RootResponseModel(
             response="Hi there!"
         )

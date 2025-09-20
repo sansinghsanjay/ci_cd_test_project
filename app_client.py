@@ -5,7 +5,7 @@ import json
 import requests
 
 # constants
-FASTAPI_URL = "http://98.81.249.49:8000"
+FASTAPI_URL = "http://54.164.137.214:8000"
 ROOT_ENDPOINT = "/"
 
 # load .env and required keys

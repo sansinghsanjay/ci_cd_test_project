@@ -12,6 +12,9 @@ from utils.logger import log_status
 from utils.readable_timestamp import get_readable_timestamp
 from utils.root_req_resp import RootRequestModel, RootResponseModel
 
+# modules imports
+from modules.list_s3_bucket_objects import list_s3_bucket_objects
+
 # paths
 constants_json_path = os.path.abspath("./constants.json")
 
@@ -56,7 +59,7 @@ def root():    #request: RootRequestModel):
         ## return response
         #log_status(status="INFO", source="/app.py::root()", timestamp=get_readable_timestamp(), msg="Authentication successful. Returning response\n")
         return RootResponseModel(
-            response="Hi, this message is coming from the fresh deployment!"
+            response=list_s3_bucket_objects()
         )
     except Exception as e:
         log_status(status="ERROR", source="/app.py::root()", timestamp=get_readable_timestamp(), msg=f"Exception: {e}; traceback: {traceback.print_exc()}\n")
